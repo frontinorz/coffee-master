@@ -2,20 +2,26 @@
   <div>
     <div>
       <div>手法: {{ title }}</div>
+      <div>簡介: {{ guide }}</div>
       <div>設備: {{ equipment }}</div>
       <div>豆量: {{ coffee }}</div>
       <div>水量: {{ water }}</div>
       <div>研磨度: {{ grind }}</div>
       <div>水溫 : {{ heat }}</div>
+      <div>步驟: {{ stepNow }}</div>
     </div>
     <Step
       v-for="(step,index) in steps"
       :key="index"
-      :stepCount="index + 1"
+      :stepCount="index"
+      :stepNow="stepNow"
       :title="step.title"
       :guide="step.guide"
+      :volume="step.volume"
       :excuMin="step.excuMin"
       :excuSec="step.excuSec"
+      :autoStart="step.autoStart"
+      @finishHander="nextStepHandler"
     />
   </div>
 </template>
@@ -27,6 +33,9 @@
       title: {
         type: String,
         required: true,
+      },
+      guide: {
+        type: String,
       },
       equipment: {
         type: String,
@@ -51,10 +60,17 @@
       },
     },
     data() {
-      return {};
+      return {
+        stepNow: 0,
+      };
     },
     components: {
       Step,
+    },
+    methods: {
+      nextStepHandler() {
+        this.stepNow++;
+      },
     },
   };
 </script>

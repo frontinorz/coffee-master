@@ -23,7 +23,7 @@
 <script>
   export default {
     props: {
-      autoStart: {
+      immediately: {
         type: Boolean,
         default: false,
       },
@@ -47,8 +47,6 @@
     created() {
       this.total = this.min * 60 + this.sec;
       this.timeDisplay();
-
-      if (this.autoStart) this.startHandler();
     },
     methods: {
       timeDisplay() {
@@ -68,6 +66,11 @@
             this.timeDisplay();
           }
         }, 1000);
+      },
+    },
+    watch: {
+      immediately: function (val) {
+        if (val) this.startHandler();
       },
     },
   };
